@@ -2,8 +2,8 @@
 Workflow Timestamps
 1. 0:00 - 5:25 Make Sure You Understand the Problem
 2. 5:25 - 20:40 Design a Solution / Runtime and Space Complexity
-3. Write a Template for Code in Logical Blocks. Aka Pseudocode
-4. Write the Code And Pass Test Cases.
+3. 20:40 - 30:10 Write a Template for Code in Logical Blocks. Aka Pseudocode
+4. 30:10 - 37:08 Write the Code And Pass Test Cases.
 '''
 '''
 1. Make Sure You Understand the Problem
@@ -16,9 +16,9 @@ num = 3999 -> 'MMMCMXCIX'
 - Have a list of our values and find highest value we can use high_val. where input int <= next value in list
 - Get the symbol for high_val and subtract that amount from int and repeat until int == 0
 
-len(symbols) = N
-Runtime: O()
-Space: O(N)
+
+Runtime: O(1)
+Space: O(1)
 
 3. Write a Template for Code in Logical Blocks. Aka Pseudocode
     # Initialize map and values list
