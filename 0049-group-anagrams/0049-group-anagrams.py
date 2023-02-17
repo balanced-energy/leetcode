@@ -65,9 +65,4 @@ class Solution:
             # Reset anagram flag for next string
             anagram_found = False
         
-        anagrams_groups = []
-        # Create output list 
-        for value in anagrams.values():
-            anagrams_groups.append(value)
-        
-        return anagrams_groups
+        return anagrams.values()
