@@ -1,10 +1,4 @@
-'''
-Workflow Timestamps
-1. 0:00 - 5:20 Make Sure You Understand the Problem
-2. 23:52 - 28:08 Design a Solution / Runtime and Space Complexity
-3. 28:08 - 51:54 Write a Template for Code in Logical Blocks. Aka Pseudocode
-4. 51:54 - 105:49 Write the Code And Pass Test Cases.
-'''
+
 '''
 1. Make Sure You Understand the Problem
 input = ['hello', '', 'world'] -> ['hello', '', 'world']
