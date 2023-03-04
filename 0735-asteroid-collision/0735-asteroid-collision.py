@@ -1,10 +1,4 @@
-'''
-Workflow Timestamps
-1. 0:00 - 5:45 Make Sure You Understand the Problem
-2. 5:45 - 29:00 Design a Solution / Runtime and Space Complexity
-3. 29:00 - 32:00 Write a Template for Code in Logical Blocks. Aka Pseudocode
-4. 32:00 - 55:40 Write the Code And Pass Test Cases.
-'''
+
 '''
 1. Make Sure You Understand the Problem
 Test Cases:
@@ -22,65 +16,48 @@ input = [-7, 6, 7,-5, 8, 9] ->
 =  [9]
 
 input = [-8, 6, 7] -> [-8]
-
-2. Design a Solution / Runtime and Space Complexity
-- Starting from end of asteroid list, push asteroid onto stack remove it from list. 
-- Continue from right to left traversing list. If asteroid in list is different sign from top of stack asteroid, handle collision.
-- Collision is handled by evaluating absolute value, smaller value is removed, equal both are removed. 
-- Push asteroid onto stack that exists still 
-- If list empty return
-
-Runtime: O(N)
-Space: O(N)
-
-
-3. Write a Template for Code in Logical Blocks. Aka Pseudocode
-    # Initialize stack with first asteroid
-    stack = [asteroids.pop()]
-
-    while asteroids:
-        pop next asteroid from list
-        compare it to top of stack asteroid
-        if signs different 
-            handle collisions
-            if asteroid remains push to stack
-        else:
-            push to stack 
-
-
-4. Write the Code And Pass Test Cases.
 '''
-
 def collision(asteroid_1, asteroid_2):
+    leftover = None
     if abs(asteroid_1) > abs(asteroid_2):
-        return asteroid_1
+        leftover = asteroid_1
     elif abs(asteroid_1) < abs(asteroid_2):
-        return asteroid_2
-   
-class Solution:
-    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
-        # Initialize stack with first asteroid
-        stack = [asteroids.pop()]
+        leftover = asteroid_2
+    return leftover
 
-        while asteroids:
-            cur_asteroid = asteroids.pop()
-            if stack:
-                prev_asteroid = stack[-1]
-            else:
-                stack.append(cur_asteroid)
+class Solution:
+    
+    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
+        # Asteroids stack
+        stack = []
+        for asteroid in asteroids:
+            # If stack is empty add asteroid to stack and continue to next asteroid
+            if not stack:
+                stack.append(asteroid)
                 continue
-            if cur_asteroid < 0 and prev_asteroid  < 0:
-                stack.append(cur_asteroid)
-            elif cur_asteroid > 0 and prev_asteroid > 0:
-                stack.append(cur_asteroid)
-            elif cur_asteroid < 0 and prev_asteroid > 0:
-                stack.append(cur_asteroid)
-            # Asteroids different signs, handle collision.
-            else:
-                old_asteroid = stack.pop()
-                asteroid = collision(cur_asteroid, old_asteroid)
-                if asteroid:
-                    asteroids.append(asteroid)
-        
-        return stack[::-1] 
-        
+
+            peek = stack[-1]
+            # If asteroid is same sign as peek or traveling in opposite directions append
+            if peek * asteroid > 0 or peek < 0 and asteroid > 0:
+                stack.append(asteroid)
+                continue
+
+            while asteroid < 0 < peek and stack:
+                leftover = collision(peek, asteroid)
+                
+                if leftover == peek:
+                    break
+                # If asteroid destroys peek, pop peek from stack and update peek
+                elif leftover == asteroid:
+                    stack.pop()
+                    if stack:
+                        peek = stack[-1]
+
+                # Both destroyed
+                else:
+                    stack.pop()
+                    break
+                if not stack and leftover or leftover*peek > 0 or peek < 0 < leftover:
+                    stack.append(asteroid)
+                    break
+        return stack   
