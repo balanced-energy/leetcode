@@ -59,13 +59,10 @@ class Solution:
         fast = head 
         slow = head
         
-        while fast:
+        while fast and fast.next:
             slow = slow.next
-            if fast.next:
-                fast = fast.next.next 
-            else:   
-                return False
-
+            fast = fast.next.next 
+         
             if slow is fast:
                 return True
         
