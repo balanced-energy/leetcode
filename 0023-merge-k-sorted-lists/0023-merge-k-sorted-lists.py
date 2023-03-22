@@ -1,25 +1,34 @@
 '''
 Workflow Timestamps
 1. 0:00 - 2:00 Make Sure You Understand the Problem
-2. Design a Solution / Runtime and Space Complexity
-3. Write a Template for Code in Logical Blocks. Aka Pseudocode
-4. Write the Code And Pass Test Cases.
+2. 2:00 - 19:51 Design a Solution / Runtime and Space Complexity
+3. 19:51 - 22:00 Write a Template for Code in Logical Blocks. Aka Pseudocode
+4. 22:00 - 34:31 Write the Code And Pass Test Cases.
 '''
 '''
 1. Make Sure You Understand the Problem
 [[1,4,5],[1,3,4],[2,6]]
 
 2. Design a Solution / Runtime and Space Complexity
-Add all elements to min heap. then pop off adding to output list
+Add all node values to min heap. Then pop off and create new linked list from each value.
 3. Write a Template for Code in Logical Blocks. Aka Pseudocode
 minheap = []
-out = []
-for list in lists:
-    for num in lists:
-    heapq.heappush(minheap, num)
-    
+dummy = node
+for l in lists:
+    if l:
+        cur = l 
+        while cur:
+            push node value to heap
+            move to next node
+
+# All node values in heap so pop them while creating new linked list
+prev = dummy
 while minheap:
-    out.append(heapq.heappop(minheap))
+    cur = Node(heapq.heappop(minheap))
+    prev.next = cur
+    prev = cur
+    
+return dummy.next
 4. Write the Code And Pass Test Cases.
 '''
 # Definition for singly-linked list.
