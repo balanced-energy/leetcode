@@ -1,10 +1,4 @@
-'''
-Mock-45m
-Workflow Timestamps
-1. 0:00 - 7:40 Make Sure You Understand the Problem
-2. 7:40 - 25:30 Design a Solution / Template / Runtime and Space Complexity
-3. Write the Code And Pass Test Cases.
-'''
+
 '''
 1. Make Sure You Understand the Problem
 2. Design a Solution / Templete / Runtime and Space Complexity
