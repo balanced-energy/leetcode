@@ -1,9 +1,9 @@
 '''
 Workflow Timestamps
 1. 0:00 - 2:45 Make Sure You Understand the Problem
-2. Design a Solution / Runtime and Space Complexity
-3. 14:00 Write a Template for Code in Logical Blocks. Aka Pseudocode
-4. Write the Code And Pass Test Cases.
+2. 2:45 - 9:13 Design a Solution / Runtime and Space Complexity
+3. 9:13 - 13:30 Write a Template for Code in Logical Blocks. Aka Pseudocode
+4. 13:30 - 22:04 Write the Code And Pass Test Cases.
 '''
 '''
 1. Make Sure You Understand the Problem
@@ -57,19 +57,22 @@ def _invert_tree(root):
     if root is None:
         return 
     
-    # Check if both children exist
-    if root.right and root.left:
-        # Store right child pointer
-        right_child = root.right
-        root.right = root.left
-        root.left = right_child
-    elif root.right:
-        root.left = root.right
-        root.right = None
-    else:
-        root.right = root.left
-        root.left = None
-        
+    # # Check if both children exist
+    # if root.right and root.left:
+    #     # Store right child pointer
+    #     right_child = root.right
+    #     root.right = root.left
+    #     root.left = right_child
+    # elif root.right:
+    #     root.left = root.right
+    #     root.right = None
+    # else:
+    #     root.right = root.left
+    #     root.left = None
+    temp = root.right
+    root.right = root.left
+    root.left = temp
+    
     # Call on children
     _invert_tree(root.right)
     _invert_tree(root.left)
