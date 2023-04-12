@@ -1,54 +1,6 @@
 '''
 Mock - 45m
 1. Make Sure You Understand the Problem
-check if word1 or word2 length 0
-ros
-horse
-
-Initialize
-  h o r s e
-r[F,F,T,F,F]
-o[F,T,F,F,F]
-s[F,F,F,T,F]
- [F,F,F,F,F]
- [F,F,F,F,F]
-
-Traverse to make diagnol T's
-  h o r s e
-r[T,F,T,F,F] 0,0
-o[F,T,F,F,F] 1,1
-s[F,F,T,T,F] 2,2
- [F,F,F,F,F] 3,3
- [F,F,T,F,F] 4,4
- 
- 
-   a b c
- b[F,T,F]
- a[T,F,F]
- t[F,F,F]
- 
- 
- base case is when chars are same and in same index
- 
- case1: chars are equal but wrong index
- When is each operation optimal?
-     insert -  when word1 < word2 
-     delete - when word1 > word2 or next char is the same 
-     replace - when equal and next char isn't the same
- 
-    if word1 > word2
-        next column is T, delete
-    elif word1 < word2
-        insert
-         
-    
- case2: chars aren't equal
-     insert - word1 < word2
-     delete - word1 > word2
-     replace - 
-    if words are same length, want to replace vs delete
- 
-
 2. Design a Solution / Template / Runtime and Space Complexity
 base cases: 
 If word1 is empty, the edit distance is equal to the length of word2.
