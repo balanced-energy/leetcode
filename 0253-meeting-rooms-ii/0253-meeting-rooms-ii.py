@@ -1,80 +1,50 @@
 '''
+Mock - 45m
 Workflow Timestamps
-1. 0:00 - 8:15 Make Sure You Understand the Problem
-2. 8:15 - 10:40 Design a Solution / Runtime and Space Complexity
-3. 10:40 - 14:25 Write a Template for Code in Logical Blocks. Aka Pseudocode
-4. Write the Code And Pass Test Cases.
-'''
-'''
 1. Make Sure You Understand the Problem
-[[0,20], [5, 10], [5, 30]] -> 3
+2. Design a Solution / Template / Runtime and Space Complexity
+3. Write the Code And Pass Test Cases.
 
-[[0,1], [0,1]] -> 2
+1. Make Sure You Understand the Problem
+[[0,30],[5,10],[15,20]]
 
-[[0, 10], [1, 30], [15, 20]] -> 
-2. Design a Solution / Runtime and Space Complexity
-rooms count variable, and occupied rooms list
 
-Sort by start time
-Place first intervals end time in occupied rooms list
+min_heap = [5,30]
 
-Loop through meetings starting at index 1
-    get current meeting start
+[[0,12],[5,10],[11,20],[13,14]]
 
-    if start <= occupied rooms last element
-        increment room count 
-        add current end time to occupied rooms
-        sort occupied rooms in reverse order 
-    else 
-        set occupied rooms last element to cur_end
+min_heap = [12,20]
+2. Design a Solution / Template / Runtime and Space Complexity
+sort by intervals by start times
+initialize a minheap with first interval end time
 
-Runtime: 
-Space: 
+for each interval
+    if start time of current interval is less than top element of minheap (next available rooms end time)
+        push current interval end time to heap
+    else
+        replace current interval end time with top element and re-heapify
 
-3. Write a Template for Code in Logical Blocks. Aka Pseudocode
+return len(min_heap)
 
-rooms count variable, and occupied rooms list
-
-Sort by start time
-Place first intervals end time in occupied rooms list
-
-Loop through meetings starting at index 1
-    get current meeting start
-
-    if start <= occupied rooms last element
-        increment room count 
-        add current end time to occupied rooms
-        sort occupied rooms in reverse order 
-    else 
-        set occupied rooms last element to cur_end
-    
-4. Write the Code And Pass Test Cases.
+3. Write the Code And Pass Test Cases.
 '''
-
-'''
-occupied_rooms = [15,29]
-[[2,15],[36,45],[9,29],[16,23],[4,9]]
-[[2,15], [4,9], [9,29], [16,23], [36,45]]
-'''
+import heapq
 class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
-        rooms = 1
-        # Stores end time of meetings in # of rooms 
-        occupied_rooms = []
         intervals.sort()
-        
-        # Store first meetings end time in occupied room 
-        occupied_rooms.append(intervals[0][1])
+        # Create rooms list with first interval in first room 
+        rooms = [intervals[0][1]]
         
         for i in range(1, len(intervals)):
-            start = intervals[i][0]
-
-            if start < occupied_rooms[-1]:
-                rooms += 1
-                occupied_rooms.append(intervals[i][1])
-                occupied_rooms.sort(reverse=True)
-            else: 
-                occupied_rooms[-1] = intervals[i][1]
-                occupied_rooms.sort(reverse=True)
+            cur_start = intervals[i][0]
+            cur_end = intervals[i][1]
+            
+            # Get room end time
+            next_room_end = rooms[0]        
+        
+            if cur_start < next_room_end:
+                heapq.heappush(rooms, cur_end)
+            else:
+                heapq.heapreplace(rooms, cur_end)
        
-        return rooms
+        return len(rooms)
