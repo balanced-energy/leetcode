@@ -3,7 +3,7 @@ Workflow Timestamps
 1. 0:00 - 2:35 Make Sure You Understand the Problem
 2. 2:35 - 8:20 Design a Solution / Runtime and Space Complexity
 3. 8:20 - 14:35 Write a Template for Code in Logical Blocks. Aka Pseudocode
-4. Write the Code And Pass Test Cases.
+4. 14:35 - 34:40 Write the Code And Pass Test Cases.
 '''
 '''
 1. Make Sure You Understand the Problem
@@ -70,13 +70,11 @@ class Solution:
                 
             if cur_symbol in special_symbols:
                 s = s[:-2]
-                print(f'special_case: s:{s}, cur_symbol:{cur_symbol}')
                 num += special_symbols[cur_symbol]
                 
             else:
                 cur_symbol = s[-1]
                 s = s[:-1]
-                print(f's:{s}, cur_symbol:{cur_symbol}')
                 num += symbols_values[cur_symbol]
                  
 
