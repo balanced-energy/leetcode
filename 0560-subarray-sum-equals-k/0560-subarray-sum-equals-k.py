@@ -45,9 +45,9 @@ class Solution:
         for num in nums:
             prefix += num
 
-            if prefix - k in prefix_sums:
-                total += prefix_sums[prefix - k]
-
+            #if prefix - k in prefix_sums:
+             #   total += prefix_sums[prefix - k]
+            total += prefix_sums.get(prefix-k, 0)
             # Update prefix count in map
             prefix_sums[prefix] = prefix_sums.get(prefix, 0) + 1
 
