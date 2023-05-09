@@ -8,9 +8,9 @@
 
 class Solution:
     def isPalindrome(self, head: Optional[ListNode]) -> bool:
-        vals = []
-        current_node = head
-        while current_node is not None:
-            vals.append(current_node.val)
-            current_node = current_node.next
-        return vals == vals[::-1]
+        nums = []
+        cur = head
+        while cur:
+            nums.append(cur.val)
+            cur = cur.next
+        return nums == nums[::-1]
