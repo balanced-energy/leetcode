@@ -80,9 +80,6 @@ p1 = Node 2, removing would return [1, 3]
 Runtime Complexity: O(N) traversing list once
 Space Complexity: O(1) updating pointers
 
-Step 3: Write template
-
-
 Example 3:
 Input: head = [d, 1], n = 1
 Output: [1]
@@ -106,7 +103,6 @@ class Solution:
             back_node = back_node.next
             
         # Back node is at node previous to the node to be deleted
-        #print(f'back_node_list:{back_node},back_node:{back_node.val} back_node.next:{back_node.next.val}')
         back_node.next = back_node.next.next
         
         # Handle deleting head by returning dummy.next and not head
