@@ -1,8 +1,7 @@
 '''
-- find min starting option for x comparing length nums and max(nums)
-- from min_start int check if count of nums >= min_start 
-    - if min_start == count return min_start 
-    - else reduce min_start 
+- create counter object of each num
+- find max num in nums and from that point reduce to 0 
+    - checking if count is ever equal to the count of nums in counter object
 
 
 
@@ -18,16 +17,12 @@ def get_greater(n, nums):
 class Solution:
     def specialArray(self, nums: List[int]) -> int:
 
-        n = len(nums)
-        start_options = min(n, max(nums))
-
-        start = start_options
-
-        while start >= 0:
-            count = get_greater(start, nums)
-            #print(f'start:{start}, count:{count}')
-            if count == start:
-                return start
-            start -= 1
-
+        count = 0
+        nums_count = Counter(nums)
+        
+        for n in range(max(nums), -1, -1):
+            count += nums_count[n]
+            if count == n:
+                return n
+            
         return -1
