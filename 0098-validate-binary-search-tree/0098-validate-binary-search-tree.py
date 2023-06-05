@@ -1,9 +1,9 @@
 '''
 Workflow Timestamps
 1. 0:00 - 1:15 Make Sure You Understand the Problem
-2. Design a Solution / Runtime and Space Complexity
-3. 7:20Write a Template for Code in Logical Blocks. Aka Pseudocode
-4. Write the Code And Pass Test Cases.
+2. 1:15 - 5:20 Design a Solution / Runtime and Space Complexity
+3. 5:20 - 7:20 Write a Template for Code in Logical Blocks. Aka Pseudocode
+4. 7:20 - 11:44 Write the Code And Pass Test Cases.
 '''
 '''
 1. Make Sure You Understand the Problem
