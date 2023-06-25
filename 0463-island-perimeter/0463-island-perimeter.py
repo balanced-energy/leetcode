@@ -56,13 +56,22 @@ class Solution:
 
     def islandPerimeter(self, grid: List[List[int]]) -> int:
         total_perimeter = 0
-
-        for row in range(len(grid)):
-            for col in range(len(grid[0])):
+        ROWS = len(grid)
+        COLS = len(grid[0])
+        directions = [(1,0),(0,1),(-1,0),(0,-1)]
+        
+        for row in range(ROWS):
+            for col in range(COLS):
                 # Check for land 
                 if grid[row][col] == 1:
                     # Check adjacent cells for land
-                    num_adj_land = self.adjacent_land(row, col, grid)
+                    num_adj_land = 0
+                    for x, y in directions:
+                        new_row = row + x
+                        new_col = col + y
+                        if new_row >= 0 and new_row < ROWS and new_col >= 0 and new_col < COLS:
+                            if grid[new_row][new_col] == 1:
+                                num_adj_land += 1
                     #print(f'pos:{row}:{col} adj_land = {num_adj_land}')
                     # Land perimter starts at 4
                     total_perimeter += 4 - num_adj_land
