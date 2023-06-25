@@ -66,14 +66,16 @@ class Solution:
                 if grid[row][col] == 1:
                     # Check adjacent cells for land
                     num_adj_land = 0
+                    
+                    # Check all adjacent cells for 
                     for x, y in directions:
                         new_row = row + x
                         new_col = col + y
+                        # Check if valid adjacent cells 
                         if new_row >= 0 and new_row < ROWS and new_col >= 0 and new_col < COLS:
                             if grid[new_row][new_col] == 1:
                                 num_adj_land += 1
-                    #print(f'pos:{row}:{col} adj_land = {num_adj_land}')
-                    # Land perimter starts at 4
+                    # Land perimter starts at 4, subtract any connected land
                     total_perimeter += 4 - num_adj_land
         
         return total_perimeter
