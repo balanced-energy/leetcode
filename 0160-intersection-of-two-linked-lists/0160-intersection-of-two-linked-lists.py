@@ -9,7 +9,7 @@ Workflow Timestamps
 1. 0:00 - 6:45 Make Sure You Understand the Problem
 2. 6:45 - 13:25 Design a Solution
 3. 13:25 - 20:20 Write a Template for Code in Logical Blocks. Aka Pseudocode
-4. Write the Code And Pass Test Cases.
+4. 20:20 - 40:29 Write the Code And Pass Test Cases.
 '''
 '''
 1. Make Sure You Understand the Problem
