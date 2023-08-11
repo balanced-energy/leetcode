@@ -1,62 +1,41 @@
 '''
-Workflow Timestamps
-1. 0:00 - 1:30 Make Sure You Understand the Problem
-2. 1:30 - 8:00 Design a Solution / Runtime and Space Complexity
-3. 8:00 - 11:45 Write a Template for Code in Logical Blocks. Aka Pseudocode
-4. Write the Code And Pass Test Cases.
+Class constructor
+    Intialize minheap as class member variable
+    Push all elements onto minheap from input list 
+    Pop off elements until heap is of size k 
+    Heap now tracks the kth largest element being the first element in the heap
+Add method
+    Add element to heap
+    If size of minheap is greater than k
+    Pop off an element from minheap leading back to a minheap of size k 
+    We know the add element only takes 1 element as input, however, if we wanted to adjust this to handle       multiple elements as input it would follow the same procedure during the initialization of the class and probably warrant creating a function that adds all elements to the minheap, and then pops off elements     until it’s equal to size k. I suppose we could still create this separate function and use it within         add, but that may add more complexity versus keeping things clean and simple since add only ever adds 1 element.
+    Return top element from heap
 '''
-'''
-1. Make Sure You Understand the Problem
-[3, [4, 5, 8, 2]]
 
- 2 [-1, 0], [-1]
- 
-    0
-    
-2. Design a Solution / Runtime and Space Complexity
-Create a minheap of size k if we can, else if nums list is shorter add all elements
-
-# Add
-if len(heap) < k 
-    heappush val
-else
-    if val greater than top element of heap. 
-    Pop off smallest then add new value with heapreplace.
-
-return first element
-3. Write a Template for Code in Logical Blocks. Aka Pseudocode
-#init
-    heap list
-    add k lements to list with heappush
-    
-    for i in range k to end of nums list
-        #add nums[i]
-    
-#add
-    check if greater than top element
-    if less than, heapreplace negative val
-    return heap[0]
-    
-4. Write the Code And Pass Test Cases.
-'''
+import heapq
 
 class KthLargest:
 
     def __init__(self, k: int, nums: List[int]):
-        self.max_heap = []
-        self.max_size = k
+        self.minheap = []
+        self.size = k
+        
+        # add all elements onto heap
         for num in nums:
-            heapq.heappush(self.max_heap, num)
+            heapq.heappush(self.minheap, num)
             
-            if len(self.max_heap) > self.max_size:
-                heapq.heappop(self.max_heap)  
+        # Reduce heap to size k
+        while len(self.minheap) > self.size:
+            heapq.heappop(self.minheap)
+
     def add(self, val: int) -> int:
+        heapq.heappush(self.minheap, val)
         
-        heapq.heappush(self.max_heap, val)
-        if len(self.max_heap) > self.max_size:
-            heapq.heappop(self.max_heap)
+        if len(self.minheap) > self.size:
+            heapq.heappop(self.minheap)
         
-        return self.max_heap[0]
+        return self.minheap[0]
+
 
 # Your KthLargest object will be instantiated and called as such:
 # obj = KthLargest(k, nums)
