@@ -1,89 +1,42 @@
 '''
-Mock - 45m
-Workflow Timestamps
-1. Make Sure You Understand the Problem
-2. Design a Solution / Template / Runtime and Space Complexity
-3. Write the Code And Pass Test Cases.
+Initialize variables prev to 0 and curr to 1 (1 way to decode empty string)
+Loop through input s from index 1 to the end
+    set new_value variable to 0
+    Check if s[i] is valid or in other words, not 0 since it’s only 1 char.
+        If it's valid then we assign our new_value to be curr. 
+    Check if the two digits in position s[i - 1] and s[i] ( call them chars) are within the range 10 <= chars <= 26 meaning they’re a valid encoding.
+        If chars is valid then we will add prev to our new_value variable. 
+    Set prev equal to curr 
+    Set curr equal to new_value. 
+Returning curr
+
 '''
-'''
-1 -> 9 base cases
 
-22612 -> 6
-2,2,6,1,2
-2,2,6,12
-22,6,1,2
-22,6,12
-2,26,1,2
-2,26,12
-
-    2 2 6 1 2 
-dp [1,2,3,3,4]
-
-dp [1,2,3,3,6]
-
-One digit
-dp[i] += dp[i-1]
-
-two digit 
-dp[i] += dp[i-2] 
-
-    2 2 2 1
-dp [1,2,3,0]
-2,2,2,1
-2,2,21
-2,22,1
-22,2,1
-22,21
-
-
-22612 -> 6
-22 61 2
-2,2 or 22 = 1+1
-2,6 or 26 = 1+1
-6,1 = 1
-1,2 or 12 = 1+1
-
-
-
-c = 1
-
-4055
-
-1. Make Sure You Understand the Problem
-
-2. Design a Solution / Template / Runtime and Space Complexity
-if first digit is zero return 0
-
-one_back and two_back variables to hold decoding amounts 
-
-for i in range(1, len(s)):
-    current = 0
-    if s[i] != 0:
-        current = one_back
-
-3. Write the Code And Pass Test Cases.
-'''
 class Solution:
     def numDecodings(self, s: str) -> int:
+        # Encoding can't start with 0
         if s[0] == '0':
             return 0
+        prev = 1
+        curr = 1
         
-        one_back = 1
-        two_back = 1
-
+        # Loop through input string
         for i in range(1, len(s)):
-            current = 0
+            new_value = 0
+            
+            # Check current integer for valid encoding
             if s[i] != '0':
-                current = one_back
+                new_value = curr
                 
-            two_digit = int(s[i-1:i+1])
+            # Get two digits
+            two_digits = int(s[i-1: i+1])
             
-            if 10 <= two_digit <= 26:
-                current += two_back 
+            # Check for valid two digit encoding 
+            if 10 <= two_digits <= 26:
+                new_value += prev
                 
-            # Update pointers
-            two_back = one_back
-            one_back = current
+            # Reset and track total encodings to this point
+            prev = curr
+            curr = new_value 
             
-        return one_back
-            
+        return curr
