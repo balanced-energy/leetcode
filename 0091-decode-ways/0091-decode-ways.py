@@ -1,5 +1,5 @@
 '''
-Initialize variables prev to 0 and curr to 1 (1 way to decode empty string)
+Initialize variables prev and curr to 1 (1 way to decode empty string)
 Loop through input s from index 1 to the end
     set new_value variable to 0
     Check if s[i] is valid or in other words, not 0 since it’s only 1 char.
@@ -17,6 +17,7 @@ class Solution:
         # Encoding can't start with 0
         if s[0] == '0':
             return 0
+        
         prev = 1
         curr = 1
         
