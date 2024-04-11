@@ -1,11 +1,32 @@
 '''
-   sort by id, then scores
-   for id, score in items 
-   add top five for id
-   skip to next id
+Understanding the problem
+Designing a solution
+- First sort items by ID, then scores
+
+-Use while loop to iterate through each element in items (i < len(items))
+    - track current ID items[i][0]
+    - track sum 
     
+    for loop in range 5
+        - accessing score located at items[i+j][1]
+        - sum += current score
     
+    - average scores sum
+    - add to results list 
     
+    while is less than items length and i is equal to current ID
+        - increse i
+    
+
+
+Input: items = [[1,91],[1,92],[2,93],[2,97],[1,60],[2,77],[1,65],[1,87],[1,100],[2,100],[2,76]]
+
+sort = [[1,100],[1,92],[1,91],[1,87],[1,65],[1,60],[2,100],[2,97],[2,93],[2,77],[2,76]]
+
+
+
+Implementing code
+
 '''
 
 class Solution(object):
@@ -14,25 +35,29 @@ class Solution(object):
         :type items: List[List[int]]
         :rtype: List[List[int]]
         """
-        items = sorted(items, key = lambda x: (-x[0], x[1]), reverse = True)
         results = []
+        sorted_ids = sorted(items, key = lambda x: (-x[0], x[1]), reverse = True)
         i = 0
         
-        # Get top five scores of each score and add average to output
-        while i < len(items):
-            current_id = items[i][0]
-            scores_sum = 0
+        while i < len(sorted_ids):
+            current_id = sorted_ids[i][0]
+            top_scores = 0
             
-            print(items)
-            # Get top 5 scores for student
             for j in range(5):
-                scores_sum += items[i+j][1]
-                top_average = scores_sum // 5
-            results.append([current_id, top_average])
+                score = sorted_ids[i+j][1]
+                top_scores += score
             
-            # Move to next student 
-            while i < len(items) and items[i][0] == current_id:
+            average = top_scores // 5
+            results.append([current_id, average])
+            
+            # Move to next ID
+            while i < len(sorted_ids) and sorted_ids[i][0] == current_id:
                 i += 1
-
+                
+        
         return results
-            
+        
+        
+        
+        
+    
