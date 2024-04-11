@@ -1,48 +1,12 @@
 '''
-Workflow Timestamps
-1. Make Sure You Understand the Problem
- 
-    - Check for edge cases
-    - Choose 3 more tests
+   sort by id, then scores
+   for id, score in items 
+   add top five for id
+   skip to next id
     
     
-    - items = [[1,0],[1,0],[1,0],[1,0],[1,0]]
-    - result = [1,0]
     
-    
-2. Design and Verify a Solution
-
- + Check all id's and scores
-     DS: Map to stores ID's and associate each ID with a minheap (negate values) to save top 5 scores
-     Loop through items
-    - If ID in map, 
-        - add score to ID's minheap 
-        - check ID's minheap size, pop if greater than 5
-    - else ID has not been seen, then 
-        - add ID to map and 
-        - create new minheap and add current score
-    
-
-    
- + calculate average of top scores for each id
-    - looping through dictionary using .items()
-     - for each ID's minheap total scores and divide by 5 adding to results
- + sort result by id's
- 
- 
-Input: items = [[1,91],[1,92],[2,93],[2,97],[1,60],[2,77],[1,65],[1,87],[1,100],[2,100],[2,76]]
-
-
-map {1:[-65,-87,-91,-92,-100],2:[77,93,97]}
-
-k = 5 (size of heap)
-n = number of items in list
-Runtime: O(n log(k))
-Space: O(n)
-3. Write the Code And Pass Test Cases.
 '''
-
-import heapq 
 
 class Solution(object):
     def highFive(self, items):
@@ -50,21 +14,25 @@ class Solution(object):
         :type items: List[List[int]]
         :rtype: List[List[int]]
         """
-        id_map = {}
+        items = sorted(items, key = lambda x: (-x[0], x[1]), reverse = True)
         results = []
+        i = 0
         
-        for student, score in items:
-            if student in id_map:
-                heapq.heappush(id_map[student], score)
-                
-                if len(id_map[student]) > 5:
-                    heapq.heappop(id_map[student])
-            else:
-                id_map[student] = [score]
-                
-        for student, scores in id_map.items():
-            average = sum(scores) // len(scores)
-            results.append([student, average])
-        
-        
-        return sorted(results) 
+        # Get top five scores of each score and add average to output
+        while i < len(items):
+            current_id = items[i][0]
+            scores_sum = 0
+            
+            print(items)
+            # Get top 5 scores for student
+            for j in range(5):
+                scores_sum += items[i+j][1]
+                top_average = scores_sum // 5
+            results.append([current_id, top_average])
+            
+            # Move to next student 
+            while i < len(items) and items[i][0] == current_id:
+                i += 1
+
+        return results
+            
