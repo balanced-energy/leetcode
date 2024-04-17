@@ -5,68 +5,72 @@ Understand the problem
 [9,9,9,9]
 [8,9,9,9,0,0,0,1]
 
-[1,0,4,1]
-[2,3]
 
-
-[1]
 [9]
+[1]
 [0,1]
 
-[8]
-[1]
-[9]
+9 + 1 = 10
 
-[7]
-[5]
 [3,1]
+[2,4]
+[5,5]
 
-13 % 10 = 3
-13 % 10 = 1
+13 + 42 = 55
+
+
+[8,2,5]
+[4,2,1]
+[2,5,6]
+
+528 + 124 = 652
 
 Design a solution 
-- Traverse through each node in the two lists while pointers aren't none 
-- summing node values tracking if there is a carry value
-- creating new node from sum
-- adding carry value to next iteration 
 
+- Traverse through the input linked lists
+- summing values of nodes if not none
+- find remainder using % 
+- handling the carry when sum > 10 
+- create new node in return list from remainder value
+- move curr pointer and list pointers to next node
+- handle last node if carry still exists 
+
+    initliaze lists_sum
+    set curr = lists_sum
+    set carry = 0
     
-    initialize head node for lists_sum list
-    set carry = 0 
-    set curr pointer to head of lists_sum 
+    while l1 is not None and l2 is not None or carry != 0:
+        set v1 and v2 values if not none
+        sum v1 + v2 + carry
+        get remainder with % 10
+        get carry with // 10
+        
+        create remainder node
+        set curr.next to remainder node
+        
+        move curr and l1 and l2 pointers
     
-    while l1 or l2:
-        
-        check l1 and l2 values, if values set as val1 and val2
-        compute sum as val1 + val2 + carry 
+    return lists_sum.next 
+    
 
-            
-        sum % 10 for node remainder
-        sum // 10 for carry 
-        
-        create new node from remainder 
-        set curr.next to remainder node    
-        set curr to curr.next in lists_sum
-        
-        check if l1, then move pointer
-        check if l2, then move pointer
-        
-        
-
-
-
-l1= [1,0,4,1]
-l2= [2,3]
-    [3,3,4,1]
-
-l1 = [8,1,4]
-l2 = [3,2]
-     [1,4,4]
+l1 = [8,2,5]
+l2 = [4,2,1]
+     [2,5,6]
      
-     418 + 23 = 441
+     528 + 124 = 652
      
-28:00 Test and code 
+[9]
+[1]
+[0,1]
 
+[1,8]
+[0]
+[1,8]
+
+n = length of l1
+m = length of l2
+Runtime: O(max(n,m))
+Space: O(max(n,m)+1)
 '''
 
 # Definition for singly-linked list.
@@ -83,29 +87,23 @@ class Solution(object):
         """
         
         lists_sum = ListNode(None)
-        carry = 0
         curr = lists_sum
+        carry = 0
         
-        while l1 or l2:
-            val1 = 0 if l1 is None else l1.val
-            val2 = 0 if l2 is None else l2.val
+        while l1 is not None or l2 is not None or carry != 0:
+            v1 = 0 if l1 is None else l1.val
+            v2 = 0 if l2 is None else l2.val
+            nodes_sum = v1 + v2 + carry
             
-            nodes_sum = val1 + val2 + carry
             remainder = nodes_sum % 10
             carry = nodes_sum // 10
             
-            # Create new node and link
-            new_node = ListNode(remainder)
-            curr.next = new_node 
+            curr.next = ListNode(remainder)
             curr = curr.next 
             
-            if l1:
-                l1 = l1.next
-            if l2:
+            if l1 is not None:
+                l1 = l1.next 
+            if l2 is not None:
                 l2 = l2.next 
-            
-            if carry != 0:
-                curr.next = ListNode(carry)
-                
-            
+        
         return lists_sum.next 
