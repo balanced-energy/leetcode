@@ -1,105 +1,83 @@
 '''
-Mock - 45m
-Workflow Timestamps
-1. Make Sure You Understand the Problem
-2. Design a Solution / Template / Runtime and Space Complexity
-3. Write the Code And Pass Test Cases.
+4:15 Understand the problem
+[] -> []
 
-1. Make Sure You Understand the Problem
-random pointer represents the index of the node
+[[1,0]] -> [[1,0]]
 
+[[1,null]] -> [[1,null]]
+
+[[1,1],[2,1]] -> [[1,1],[2,1]]
+
+[[3,null],[3,0],[3,null]] -> [[3,null],[3,0],[3,null]]
+
+[[1,2],[2,0],[3,1]] -> [[1,2],[2,0],[3,1]]
+
+
+29:00 Design a solution
+
+- visited map old_node:new_node  
+- recursive function input of head
+    - if head is None: return None
+    - if node in visited
+        return visited[head]
+     
+    - create new node
+    - add it to visited 
+    - new_node.next = func(head.next)
+    - new_node.random = func(head.random)
+    
+    return node
+
+{old_node(1):new_node(1), 2:2}
+[[1,1],[2,1]]
+
+{1:1}
+[[1,0]] -> [[1,0]]
+
+{7:7, 13:13, 11:11, 10:10, 1:1}
+     
 [[7,null],[13,0],[11,4],[10,2],[1,0]]
 
-[[7,None],[13],[11],[10],[1]]
+{1:1,2:2,3:3 }
+[[1,2],[2,0],[3,1]] 
 
-node_index = {0:[7],1:[13],2:[10],3:[1]}
 
-
-head_copy = Node(head.val)
-cur_copy = head_copy
-
-# First traversal copy values and save index 
-set cur to head.next
-idx = 0
-while cur:
-    # Create copy of cur.next if not null
-    if cur.next is not None:
-        cur_copy.next = Node(cur.next.val)
-    else:
-        cur_copy.next = None
-        
-    # save index 
-    node_index[idx] = copy_cur
-    idx += 1
-   
-   # move pointers
-    cur = cur.next
-    cur_copy = cur_copy.next 
-    
-# Traverse copied list setting random pointer
-cur = head
-cur_copy = head_copy
-while cur:
-    if cur.random is not None:
-        cur_copy.random = node_index[cur.random]
-    else:
-        cur_copy.random = None
-    # move pointers
-    cur = cur.next
-    cur_copy = cur_copy.next 
-return copy_head
-    
-    
-2. Design a Solution / Template / Runtime and Space Complexity
-- map to store node index
-- Create copy of head
-- Traverse nodes creating new nodes with same values and saving index in map
-- Second pass handle random pointer indices 
-3. Write the Code And Pass Test Cases.
+Runtime: O(N)
+Space: O(N)
 '''
 """
 # Definition for a Node.
 class Node:
-    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+    def __init__(self, x, next=None, random=None):
         self.val = int(x)
         self.next = next
         self.random = random
 """
 
-class Solution:
-    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        if head is None:
+class Solution(object):
+    def copyRandomList(self, head):
+        """
+        :type head: Node
+        :rtype: Node
+        """
+        
+        self.visited = {}
+        return self.copy_node(head)
+        
+    def copy_node(self, head):
+        if head == None:
             return None
-        
-        head_copy = Node(head.val)
-        cur_copy = head_copy
-       
-        node_to_node_copy = {head:head_copy}
-        # First traversal copy values and save index 
-        cur = head 
-        while cur:
-            node_to_node_copy[cur] = cur_copy
-            # Create copy of cur.next if not null
-            if cur.next is not None:
-                cur_copy.next = Node(cur.next.val)
-                
-            else:
-                cur_copy.next = None
 
-           # move pointers
-            cur = cur.next
-            cur_copy = cur_copy.next 
+        if head in self.visited:
+            return self.visited[head]
 
-        # Traverse copied list setting random pointer
-        cur = head
-        cur_copy = head_copy
-        while cur:
-            if cur.random is not None:
-                cur_copy.random = node_to_node_copy[cur.random]
-            else:
-                cur_copy.random = None
-            # move pointers
-            cur = cur.next
-            cur_copy = cur_copy.next 
+        node = Node(head.val, None, None)
+        self.visited[head] = node 
+
+        # Recursively call on head.next and head.random
+        node.next = self.copy_node(head.next)
+        node.random = self.copy_node(head.random)
+
+        return node
+
         
-        return head_copy
