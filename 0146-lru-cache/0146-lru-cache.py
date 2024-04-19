@@ -1,156 +1,149 @@
 '''
-Mock - 45m
-Workflow Timestamps
-1. 3:00 Make Sure You Understand the Problem
-2. Design a Solution / Template / Runtime and Space Complexity
-3. Write the Code And Pass Test Cases.
+2:00 Understand the problem
 
-1. Make Sure You Understand the Problem
-2. Design a Solution / Template / Runtime and Space Complexity
-Using a deque to store order of keys and hashmap for O(1) get/put access time.
 
-(1)<->(2)
 
-class Node:
-    __init__(self, val):
-        self.val = val
-        next = None
-        prev = None
+24:00 Design a solution
+h[1,2]t
 
-class DoublyLinkedList:
-    __init__(self):
-        head = Node('Head')
-        tail = Node('Tail')
-        
-    # Front least recently used
-       
-    (1)<->(2)<->(3)
-    add_back(val):
-        node = Node(val)
-        tail.prev.next = node
-        node.prev = tail.prev
-        node.next = tail
-        tail.prev = node
-            
-        (2)
-    (1)<->(3)
-    delete(node):
-        prev_last = node.prev
-        prev_last.next = node.next
-        node.next.prev = prev_last
+Node:
+    key
+    val
+    next
+    prev
     
-    move_to_back:
+Cache
+init
+    cap
+    nodes = {}
+    head
+    tail
+    point head and tail to each other
+    
+# Remove node from list
+(1)-><-(2)-><-(3)
+
+delete(node)
+    node.prev.next = node.next
+    node.next.prev = node.prev
+
+# add to end of list
+h[1,2]t
+add(node)
+    tail.prev.next = node
+    node.next = tail
+    node.prev = tail.prev 
+    tail.prev = node
+    
+get 
+    if key in nodes:
+        node = self.node[key]
         delete(node)
-        add_to_back(node)
-    
-intit:
-    d = doublylinkedlist()
-    keys = {key:node}
-
-get:
-    if key in keys:
-        node = keys[keys]
+        
+        add(node)
         return node.val
-    
-    # Update order by moving to back
-    move_to_back(node)
-    
     return -1
     
-    
-put:
-    # If key exists update nodes value
-    if key in keys:
-        node = keys[key]
-        node.val = val
+put
+    if key in nodes:
+        node = self.nodes[key]
+        delete(node)
         
-    
+        new_node = Node(key, val)
+        self.node[key] = new_node
+        add(node)
+        
     else:
-        create node with value
-        add key:node to map
-        add node to back of deque
-    
-    if capacity exceeded
-    remove front node from deque
-    
-
-3. Write the Code And Pass Test Cases.
-'''
-class Node:
-    def __init__(self, val):
-        self.key = None
-        self.val = val
-        self.prev = None
-        self.next = None
+        node = Node(key,val)
+        self.nodes[key] = node
+        add(node)
         
-class DoublyLinkedList:
-    def __init__(self):
-        self.head = Node('Head')
-        self.tail = Node('Tail')
+        if len(self.nodes) > self.cap:
+            node = head.next
+            delete(node)
+            del self.nodes[node.key]
+            
+{3:3, 4:4}
+h[3,4]t
+
+Runtime: O(1)
+Space: O(capacity)
+
+Implement
+'''
+
+class Node():
+    def __init__(self, key, val, nxt=None, prev=None):
+        self.key = key
+        self.val = val
+        self.next = nxt
+        self.prev = prev
+        
+class LRUCache(object):
+
+    def __init__(self, capacity):
+        """
+        :type capacity: int
+        """
+        self.capacity = capacity
+        self.nodes = {}
+        self.head = Node('head','head')
+        self.tail = Node('tail','tail')
         self.head.next = self.tail
         self.tail.prev = self.head
-        self.size = 0
         
-    # Front least recently used   
-    #(1)<->(2)<->(3)
-    def add_to_back(self, node):
-        self.tail.prev.next = node
-        node.prev = self.tail.prev
-        node.next = self.tail
-        self.tail.prev = node
-        self.size += 1
-            
-   #     (2)
-   # (1)<->(3)
+    
     def delete(self, node):
-        #prev_last = node.prev
         node.prev.next = node.next
         node.next.prev = node.prev
-        self.size -= 1
+        
     
-    def move_to_back(self, node):
-        self.delete(node)
-        self.add_to_back(node)
+    def add(self, node):
+        self.tail.prev.next = node
+        node.next = self.tail
+        node.prev = self.tail.prev 
+        self.tail.prev = node
 
-class LRUCache:
+    def get(self, key):
+        """
+        :type key: int
+        :rtype: int
+        """
+        if key in self.nodes:
+            node = self.nodes[key]
+            self.delete(node)
+            self.add(node)
+            return node.val
+        
+        return -1
+        
 
-    def __init__(self, capacity: int):
-        self.d = DoublyLinkedList()
-        self.keys = {}
-        self.capacity = capacity
+    def put(self, key, value):
+        """
+        :type key: int
+        :type value: int
+        :rtype: None
+        """
+        if key in self.nodes:
+            node = self.nodes[key]
+            self.delete(node)
 
-    def get(self, key: int) -> int:
-        if key not in self.keys:
-            return -1
-        # Get node and update position
-        node = self.keys[key]
-        self.d.move_to_back(node)
+            new_node = Node(key, value)
+            self.nodes[key] = new_node
+            self.add(new_node)
         
-        return node.val
-        
-        
-    def put(self, key: int, value: int) -> None:
-        # If key exists update nodes value
-        if key in self.keys:
-            node = self.keys[key]
-            node.val = value
-            # Update order by moving to back
-            self.d.move_to_back(node)
-    
         else:
-            new_node = Node(value)
-            new_node.key = key
-            self.keys[key] = new_node
-            self.d.add_to_back(new_node)
-    
-        
-        if self.d.size > self.capacity:
-            front_node = self.d.head.next
-            self.d.delete(front_node)
-            del self.keys[front_node.key]
-        
-        
+            node = Node(key,value)
+            self.nodes[key] = node
+            self.add(node)
 
+            if len(self.nodes) > self.capacity:
+                node = self.head.next
+                self.delete(node)
+                del self.nodes[node.key]
+
+{2:2,}
+[2,]
 
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
