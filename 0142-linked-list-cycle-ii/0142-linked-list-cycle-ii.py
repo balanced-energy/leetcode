@@ -1,55 +1,52 @@
 '''
-8:50 Understand the problem
+3:30 Understand the problem
+Return None if no cycle
 
-[] -> -1
-[(1,None)] -> -1
+[] -> None
+[(1,None)] -> None
+(val, next index pointer)
 [(1,0)] -> (1,0)
 
-(val, next idx)
+[(1,1),(2,None)] -> None
 [(1,1),(2,0)] -> (1,1)
-
 [(1,1),(2,2),(3,1)] -> (2,2)
 
 
-Design a solution
+16:00 Design a solution
+- Fast and slow pointers initialized to head
+- while fast and fast.next incremenet fast by 2 and slow by 1, checking if they're equal then break
+- if not fast or not fast.next return None
+- reset fast to head and then increment both until equal 
+- return slow
 
-Two pointer approach
-fast and slow pointers, fast increments by two slow by one
-when fast == slow we detect a cycle
+  (val, next index)
+              Meet(b)
+[(1,1),(2,2),(3,1)] -> (2,2)
+s = 1,2,3,3,2
+f = 1,3,3,1,2
+  Meet
+[(1,1),(2,0)] -> (1,1)
+s = 1,2,1
+f = 1,1,1,1
 
-while fast and fast != slow
+[(1,0)]
+s = 1,1
+f = 1,1,1 -> (1,0)
 
-               pos
-               s      f
-[(3,1),(2,2),(0,3),(-4,1)]
+[(1,1),(2,None)] -> None
 
-         pos
-   fs
-[(1,1),(2,0)]
+s = 1,2
+f = 1,None
+           m
+[1,2,3,4,5,1] -> 2
 
-(next pointer)
-       hit
-f       s                 
-1,2,3,4,5,1
-s=4,5,0,1
-f=0,2,4,1
-s=4,5,0,1,2
-f=5,1,3,5,2
-
-
-Second idea not optimal space
-store nodes seen in map
-while head, traverse linked list
-if head in seen return head
-
-return -1
-
-{3,2,0,-4}
-[3,2,0,-4]
+s = 1,2,3,4,5,1,2
+f = 1,3,5,2,4,1,1,2
 
 Runtime: O(N)
-Space: O(N)
+Space: O(1)
 '''
+
 # Definition for singly-linked list.
 # class ListNode(object):
 #     def __init__(self, x):
@@ -62,12 +59,23 @@ class Solution(object):
         :type head: ListNode
         :rtype: ListNode
         """
-        seen = set()
+        fast = head
+        slow = head
         
-        while head:
-            if head in seen:
-                return head
-            seen.add(head)
-            head = head.next
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+            
+            if fast == slow:
+                break
         
-        return None
+        if not fast or not fast.next:
+            return None
+        
+        fast = head
+        
+        while fast != slow:
+            fast = fast.next
+            slow = slow.next
+
+        return slow
