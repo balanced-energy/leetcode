@@ -1,72 +1,73 @@
+'''
+8:50 Understand the problem
+
+[] -> -1
+[(1,None)] -> -1
+[(1,0)] -> (1,0)
+
+(val, next idx)
+[(1,1),(2,0)] -> (1,1)
+
+[(1,1),(2,2),(3,1)] -> (2,2)
+
+
+Design a solution
+
+Two pointer approach
+fast and slow pointers, fast increments by two slow by one
+when fast == slow we detect a cycle
+
+while fast and fast != slow
+
+               pos
+               s      f
+[(3,1),(2,2),(0,3),(-4,1)]
+
+         pos
+   fs
+[(1,1),(2,0)]
+
+(next pointer)
+       hit
+f       s                 
+1,2,3,4,5,1
+s=4,5,0,1
+f=0,2,4,1
+s=4,5,0,1,2
+f=5,1,3,5,2
+
+
+Second idea not optimal space
+store nodes seen in map
+while head, traverse linked list
+if head in seen return head
+
+return -1
+
+{3,2,0,-4}
+[3,2,0,-4]
+
+Runtime: O(N)
+Space: O(N)
+'''
 # Definition for singly-linked list.
-# class ListNode:
+# class ListNode(object):
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
 
-'''
-Workflow Timestamps
-1. 0:00 - 3:41 Make Sure You Understand the Problem
-2. 3:41 - 7:50 Design a Solution / Runtime and Space Complexity
-3. 7:50 - 13:50 Write a Template for Code in Logical Blocks. Aka Pseudocode
-4. 13:50 - 36:55 Write the Code And Pass Test Cases.
-'''
-'''
-1. Make Sure You Understand the Problem
-
-Test cases:
-1.) head = [1*, 2, 3*], 3 points to 1
-return 0
-
-2.) head = []
-    return 
-
-3.) head [1**], 1 points to 1
-    return 0
-2. Design a Solution / Runtime and Space Complexity
-Pointer that increments by  1. Store each node in map as key:value pair id(node): node. 
-If node is is ever in map return node, else return.
-
-Runtime: O(N)
-Space complexity: O(1)
-3. Write a Template for Code in Logical Blocks. Aka Pseudocode
-    # Check for empty list
-    if not head:
-        return
-    
-    cur = head
-    node_ids = {}
-
-    while cur:
-        #add cur node to map 
-        map.add(cur.id)
-
-        cur = cur.next 
-
-        # Check if fast node id is in map
-        if id(cur) in map:
-            return map[cur]
-
-    return None
-
-4. Write the Code And Pass Test Cases.
-'''
-class Solution:
-    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        # Check for empty list 
-        if not head:
-            return 
+class Solution(object):
+    def detectCycle(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        seen = set()
         
-        cur = head
-        node_ids = {}
-
-        while cur:
-            # Add node to map
-            node_ids[id(cur)] = cur
-
-            cur = cur.next 
-    
-            if id(cur) in node_ids:
-                return node_ids[id(cur)]
-            
-        return 
+        while head:
+            if head in seen:
+                return head
+            seen.add(head)
+            head = head.next
+        
+        return None
