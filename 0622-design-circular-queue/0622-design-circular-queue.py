@@ -1,104 +1,87 @@
 '''
-4:50 Understand the problem
-FIFO (First In First Out)
-
-init2
-e1
-head = 0
-size = 1
-
-e2
-head = 0
-size = 2
-
-[1,2] 
-deque
-head = 1
-size = 1
-[ ,2]
-eq 3
-
-[3, 2]
-head = 1
-size = 2
-deque 
-false
-
-
-[1,2,3]
-[1,2,3,4] want idx 3
-h=0
-size=4
-cap=4
-[None,2,3]
-[None,2,3,4]
+Understand the problem
 
 
 Design a solution
-Using a list and % operator to circle back around
-
+Using list enqueue items making sure to % by capacity to handle circular functionality 
+dequeue by moving head to next index also taking into account % capacity
+isempty / isfull simply checks size attribute versus capacity 
+rear / front returns item at head and tails
 
 - init 
-    q = [0]*k
-    capacity = k
+    q = [0] * k
+    cap = k
     size = 0
-    head = 0 
+    head = 0
+    lock = Lock()
     
+- enqueue
+    - if isFull:
+        return False
     
-- enqueue(val)
-    - isFull return false
-    - self.q[head + size % capacity] = val 
-    - self.size += 1
-    
+    with lock
+        q[(head + size) % capacity] = value
+        size += 1
+
+        return True
+
 
 - dequeue
-    - if isEmpty return false
-    -  head = head + 1 % cap
-    - self.size -= 1
-
+    if isEmpty:
+        return False
+        
+    head = (head + 1) % capacity 
+    size -= 1
+    
+    return True
+    
+- front:
+    if isEmpty:
+        return -1
+        
+    return q[head]
+    
+- rear:
+    if isEmpty
+        return -1
+    return q[(head + size - 1) % capcacity]
+    
 - isEmpty
     return size == 0
     
-- isFull
-    reutrn size == cap
-    
-- front
-    - if isEmpty
-        return -1
-    return self.q[head]
-    
-- rear 
-    if isEmpty
-        return -1
-    return self.q[head + size -1] % cap
-    
-    
-    
+- isFull 
+    return size == capacity
+
+
 [4,2,3]
-cap=3
-head=0,1
-size=3,2,3
+h=0,1
+s=0,1,2,3,2,3
+c=3
 
-Runtime: O(N)
+Runtime: O(1)
 Space: O(N)
-
 '''
+from threading import Lock
+
 class MyCircularQueue:
 
     def __init__(self, k: int):
         self.q = [0] * k
-        self.head = 0
-        self.size = 0
         self.capacity = k
+        self.size = 0
+        self.head = 0
+        self.lock = Lock()
+        
 
     def enQueue(self, value: int) -> bool:
         if self.isFull():
             return False
         
-        self.q[(self.head + self.size) % self.capacity] = value
-        self.size += 1
-        
-        return True
+        with self.lock:
+            self.q[(self.head + self.size) % self.capacity] = value
+            self.size += 1
+            
+            return True
 
     def deQueue(self) -> bool:
         if self.isEmpty():
@@ -106,14 +89,14 @@ class MyCircularQueue:
         
         self.head = (self.head + 1) % self.capacity
         self.size -= 1
-     
+        
         return True
-    
+
     def Front(self) -> int:
         if self.isEmpty():
             return -1
         
-        return self.q[self.head]    
+        return self.q[self.head]
 
     def Rear(self) -> int:
         if self.isEmpty():
