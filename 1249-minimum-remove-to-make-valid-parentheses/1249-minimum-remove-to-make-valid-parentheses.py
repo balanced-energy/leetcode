@@ -1,71 +1,52 @@
 '''
-8:30 Understand the problem
-
-'())' -> '()'
-[]
-(2)
-Any closed ')' BEFORE an open '(' is automatically invalid
-
-'a)' -> 'a'
-
-Open doesn't have a matched close AFTER it
-'(a' -> 'a'
-
-')(' -> ''
+6:45 Understand the problem
 
 '()s' -> '()s'
 
-'(())('
+'' -> ''
 
-'((((('
+'(as' -> 'as'
 
-''
+'())' -> '()'
 
-Design a solution
-Utilize a stack to track open parenthesis needing to be closed
+'()sd(dss)(' -> '()sd(dss)'
 
+'(((((' -> ''
 
-delete = set()
+16:00 Design a solution
+stack to track open
+set to store indices to delete from final string
+
+loop through s matching opens with closes and identifying any invalild chars
 
 for idx, ch in enumerate(s):
     if ch == '(':
         stack.append(idx)
     
-    elif ch == ')':
-        if stack:
-            stack.pop()
-        else:
-           delete.add(idx)
-           
+    elif not stack:
+        deletes.add(idx)
+    
+    else:
+        stack.pop()
 
-# Add invalid indices to delete set 
-if stack:
-    while stack:
-        delete.add(stack.pop())
+# Add any remaining opens to deletes set
+deletes.union(set(stack))
 
-
-# Rebuild string without indices in delete set
-string = []
+# Rebuild result string
+string_list = []
 
 for idx, ch in enumerate(s):
-    if idx not in delete:
-        string.append(ch)
+    if idx not in deletes:
+        string_list.append(ch)
         
-# List with chars for result string
-return ''.join(string)
+return ''.join(string_list)
 
 
+Runtime: O(N)
+Space: O(N)
 
 
-        
- s = "lee(t(c)o)de)"
- [l,e,e,(,t,(c,),o),d,e]
- lee(t(c)o)de
- (12)
- 
- Runtime: O(N)
- Space: O(N)
-
+Implement
 '''
 class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
@@ -73,25 +54,26 @@ class Solution:
         deletes = set()
         
         for idx, ch in enumerate(s):
+            
+            if ch.isalpha():
+                continue 
+                
             if ch == '(':
                 stack.append(idx)
-
-            elif ch == ')':
-                if stack:
-                    stack.pop()
-                else:
-                    deletes.add(idx)
-                    
-        # Add unmatched open parenthesis to deletes list
-        if stack:
-            while stack:
-                deletes.add(stack.pop())
                 
-        string_list = []
+            elif not stack:
+                deletes.add(idx)
+                
+            else:
+                stack.pop()
+                
+        deletes = deletes.union(set(stack))
+        
+        # Rebuild string
+        list_string = []
         
         for idx, ch in enumerate(s):
             if idx not in deletes:
-                string_list.append(ch)
-        
-        return ''.join(string_list)
-                    
+                list_string.append(ch)
+                
+        return ''.join(list_string)
