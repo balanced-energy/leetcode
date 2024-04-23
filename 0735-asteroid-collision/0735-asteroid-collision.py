@@ -1,63 +1,60 @@
-
 '''
-1. Make Sure You Understand the Problem
-Test Cases:
+6:20 Understand the problem
 
-input = [-5, 2, -1]
-= [-5,2]
-= [-5]
+[-1,-2,-3] -> [-1,-2,-3]
+[1,2,3] -> [1,2,3]
+[-1, 1] -> [-1, 1]
 
-input = [8, 6, 7, 4] -> [8, 6, 7, 4]
+[-1,-1]
 
-input = [-7, 6, 7,-5, 8, 9] -> 
-=  [-8, 6, 7, -5, 8, 9]
-=  [-8, 6, 7, 8, 9]
-=  [-8, 7, 8, 9]
-=  [9]
+[3,2,1,-3] -> []
 
-input = [-8, 6, 7] -> [-8]
+[3,2,1,-2] -> [3]
+
+[-1,2,-1]
+
+
+38:45 Design a solution
+Traverse list
+Use a stack to store asteriods
+
+stack = []
+
+for ast in asteroids:
+    if ast is positive 
+        add to stack
+    
+    else:
+        while stack and stack[-1] < abs(ast)
+            stack.pop()
+    
+        if stack and stack[-1] == abs(ast) and stack[-1] > 0 and ast < 0:
+            stack.pop()
+        
+        elif not stack or stack[-1] < 0 :
+          stack.append(ast)  
+
+return stack
+[-1, 1] -> [-1, 1]
+
+[-1,]
 '''
-def collision(asteroid_1, asteroid_2):
-    leftover = None
-    if abs(asteroid_1) > abs(asteroid_2):
-        leftover = asteroid_1
-    elif abs(asteroid_1) < abs(asteroid_2):
-        leftover = asteroid_2
-    return leftover
 
 class Solution:
-    
     def asteroidCollision(self, asteroids: List[int]) -> List[int]:
-        # Asteroids stack
         stack = []
-        for asteroid in asteroids:
-            # If stack is empty add asteroid to stack and continue to next asteroid
-            if not stack:
-                stack.append(asteroid)
-                continue
+        for ast in asteroids: 
+            if ast > 0:
+                stack.append(ast)
 
-            peek = stack[-1]
-            # If asteroid is same sign as peek or traveling in opposite directions append
-            if peek * asteroid > 0 or peek < 0 and asteroid > 0:
-                stack.append(asteroid)
-                continue
-
-            while asteroid < 0 < peek and stack:
-                leftover = collision(peek, asteroid)
-                
-                if leftover == peek:
-                    break
-                # If asteroid destroys peek, pop peek from stack and update peek
-                elif leftover == asteroid:
+            else:
+                while stack and stack[-1] < abs(ast) and stack[-1] > 0:
                     stack.pop()
-                    if stack:
-                        peek = stack[-1]
 
-                # Both destroyed
-                else:
+                if stack and stack[-1] == abs(ast) and (stack[-1] > 0 and ast < 0):
                     stack.pop()
-                    break
-                if not stack and leftover or leftover*peek > 0 or peek < 0 < leftover:
-                    stack.append(asteroid)
-                    break
-        return stack   
+
+                elif not stack or stack[-1] < 0:
+                    stack.append(ast)  
+
+        return stack
