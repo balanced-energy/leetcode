@@ -1,60 +1,61 @@
 '''
-6:20 Understand the problem
+6:00 Understand our problem
 
-[-1,-2,-3] -> [-1,-2,-3]
-[1,2,3] -> [1,2,3]
+[-1,-1] -> [-1,-1]
+[1,1] -> [1,1]
 [-1, 1] -> [-1, 1]
 
-[-1,-1]
-
-[3,2,1,-3] -> []
-
-[3,2,1,-2] -> [3]
-
-[-1,2,-1]
+[-1,2,-1] -> [-1, 2]
+[-1, 2] -> [-1, 2]
 
 
-38:45 Design a solution
-Traverse list
-Use a stack to store asteriods
+[1,-1]
+[]
+
+Design a solution
+Traverse asteroids utilizing stack to store asteroids that may later collide
 
 stack = []
 
 for ast in asteroids:
-    if ast is positive 
-        add to stack
-    
-    else:
-        while stack and stack[-1] < abs(ast)
-            stack.pop()
-    
-        if stack and stack[-1] == abs(ast) and stack[-1] > 0 and ast < 0:
+    if ast > 0:
+        append to stack
+    else:    
+        # Handle collisions when ast > ast's on stack
+        while stack and stack[-1] > 0 and stack[-1] < abs(ast):
             stack.pop()
         
-        elif not stack or stack[-1] < 0 :
-          stack.append(ast)  
+        # 
+         if not stack or stack[-1] < 0:
+            stack.append(ast)
+
+        elif stack[-1] == abs(ast):
+            stack.pop()
 
 return stack
-[-1, 1] -> [-1, 1]
 
-[-1,]
+Runtime: O(N)
+Space: O(N)
+
+15:50 Implement
 '''
 
 class Solution:
     def asteroidCollision(self, asteroids: List[int]) -> List[int]:
         stack = []
-        for ast in asteroids: 
+        
+        for ast in asteroids:
             if ast > 0:
                 stack.append(ast)
-
+                
             else:
-                while stack and stack[-1] < abs(ast) and stack[-1] > 0:
+                while stack and stack[-1] > 0 and stack[-1] < abs(ast):
                     stack.pop()
-
-                if stack and stack[-1] == abs(ast) and (stack[-1] > 0 and ast < 0):
+                    
+                if not stack or stack[-1] < 0:
+                    stack.append(ast)
+                
+                elif stack[-1] == abs(ast):
                     stack.pop()
-
-                elif not stack or stack[-1] < 0:
-                    stack.append(ast)  
-
+                    
         return stack
