@@ -1,70 +1,63 @@
 '''
-6:30 Understand the problem
+4:45 Understand the problem
 The nodes in the list must have all of their child pointers set to null.
 
 [] -> []
 
 [1] -> [1]
 
-1 -> [1,3]
-| 
+1 -> 1,2,3
+|
+2
+|
 3
-
-
-1,2 -> [1,3,5,6,4,2]
 |
-3,4
-|
-5
-|
-6
-
-stack []
-d[1,3,2]
-prev = d,1,3
-curr= 1,3,2
+4
 
 
-s[]
-d[1<>2<>3<>7<>8<>11<>12<>9<>10<>4<>5<>6]
+24:15 Design a solution
+Recursive function that takes in prev, curr and resturns tail
+Base case when we don't have a curr, return prev
+Set pointers
+calling recursive function on curr.child
+call on curr.next with tail returned from child call 
 
-curr=1,2,3,7,8,11,12,9,10,4,5,6
-prev=d,1,2,3,7,8,11,12,9,10,4,5,6
 
+if not head return none
 
+- intialize dummy node and set next to head
+- call recursive function passing in flatten_dfs(dummy, head)
+- dummy.next.prev = None
 
-Design a solution
-DFS
+- return dummy.head 
 
-Use a stack, pushing first node on stack
-
-if not head 
-    return None
+-flatten_dffs(prev, curr)
+    if not curr:
+        return prev
+        
+    # set pointers
+    curr.prev = prev
+    prev.next = curr
     
-prev = dummy node
+    # Need to save curr.next in temp
+    temp = curr.next
+    
+    tail = self.flatten_dfs(curr, curr.child)
+    curr.child = None
+    
+    return self.flatten_dfs(tail, curr.next)
 
-while stack 
-    - point curr.prev to prev
-    - set prev.next to curr
-    
-    - if curr.next
-        append cur.next to stack
-    
-    - if curr has child
-        append child to stack
-        curr.child = None
-         
-    prev = curr
-    
-return dummy.next 
 
+
+d>1<>2<>3<>7<>8<>11<>12<>9<>10<>4<>5<>6
+prev = 3,7,8
+curr = 7,8,11
 
 Runtime: O(N)
 Space: O(N)
 
-32:00 Implement 
+Implement
 '''
-
 """
 # Definition for a Node.
 class Node:
@@ -77,31 +70,30 @@ class Node:
 
 class Solution:
     def flatten(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        def flatten_dfs(prev, curr):
+            if not curr:
+                return prev 
+
+            # Set pointers 
+            prev.next = curr
+            curr.prev = prev
+
+            temp = curr.next
+            tail = flatten_dfs(curr, curr.child)
+            curr.child = None
+
+            return flatten_dfs(tail, temp)
+
         if not head:
             return None
-        
-        stack = []
-        stack.append(head)
-        
-        dummy = Node('dummy', None, None, None)
-        prev = dummy
-        
-        
-        while stack:
-            curr = stack.pop()
-            
-            curr.prev = prev
-            prev.next = curr
-            
-            if curr.next:
-                stack.append(curr.next)
-                
-            if curr.child:
-                stack.append(curr.child)
-                curr.child = None
-                
-            prev = curr
-        
+
+        dummy = Node('Dummy', None, head, None)
+
+        flatten_dfs(dummy, head)
+
         dummy.next.prev = None
+
+        return dummy.next
+
         
-        return dummy.next 
+       
