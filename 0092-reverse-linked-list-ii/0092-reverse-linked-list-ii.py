@@ -1,108 +1,85 @@
 '''
-4:15 Understand the problem
-[5] -> [5]
+Understand the problem
 
-[1,2,3], l = 1, r = 3
-[3,2,1]
+ cn t
+ p  c
+   [1], left = 1, right = 1 -> [1]
 
-[1,2,3] l = 2, r = 3
-[1,3,2]
-
-[1,2,3] l = 1, r = 2
-[2,1,3]
-
-[1,2,3,4,5] l = 2, r = 4
-[1,4,3,2,5]
-
-
-Design a solution
-initialize prev = None and curr = head
-First move prev and curr pointer while left > 1 times reducing left and right counts
-
-set start, tail pointers where start = prev and tail = cur
-
-we reverse nodes while right:
-    - next = curr.next
-    - curr.next = prev
-    - prev = curr
-    - curr = next
-    - reduce right count
-    
-Relink the reversed sublist
-    - if start
-        start.next = prev 
-    else
-        head = prev
-    
-    tail.next = cur
-    
-return head 
-  
-  s t
-        p c n
- [1,2,3,4,5] l = 2,1, r = 4,3,2,1
- 1-><-2<-3<-4->5->None
- 1->4->3->2->5->None
-prev = none
-cur = 1
-
-s t
-    p c n
- [1,2,3] l = 1, r = 2 ->  [2,1,3]
-        h
-   3<-1<-2
-prev = None
-cur = 1
-
-  s t
+cn t
+     p c
+  [1,2,3], left = 1, right = 2 -> [2,1,3]
+ None<1<2  3>None
+ h=2>1>3>None
+ h = 2
+    l r 
+ cn t 
       p c
- [1,2,3] l = 2,1 r = 3,2 [1,3,2]
-  1<-2<-3 
-  1->3->2->None
-prev = None
-cur = 1
+ [1,2,3], left = 2, right = 3 -> [1,3,2]
+ head=1> <2<3
+ head=1>3>2None
+ l=1
+ r=2
+
+
+[1,2,3], left = 1, right = 3 -> [3,2,1]
+
+       lr
+    cn t
+       p c 
+  [1,2,3], left = 3, right = 3 -> [1,2,3]
+   1>2>3
+   1>2>3>None
+
+con = 2
+
+l = 3,2,1
+r = 3,2,1
+
+     l   r
+  cn t
+         p c
+  [1,2,3,4,5], left = 2, right = 4 -> [1,4,3,2,5]
+  1><2<3<4 5>None
+
+27:00 Design a solution
+- We need to reverse the sublist from left to right
+- We need to get pointers into position, by decrementing left and right values until left == 1 
+- Perform reversal steps right # of times
+- Relink nodes
+    -   if con:
+            con.next = prev
+        else:
+            head = prev
+        tail.next = curr
+return head
 
 Runtime: O(N)
-Space:(1)
+Space: O(1)
 
-Implement 
-  
-  s t
-        p c n
- [1,2,3,4,5], left = 2,1 right = 4,3,2,1 ->[1,4,3,2,5]
-  1<-2<-3<-4
-  1->4->3->2->5->None
-prev
-cur
+Implement
 '''
 
 # Definition for singly-linked list.
-# class ListNode(object):
+# class ListNode:
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
-class Solution(object):
-    def reverseBetween(self, head, left, right):
-        """
-        :type head: ListNode
-        :type left: int
-        :type right: int
-        :rtype: ListNode
-        """
-        prev = None
+class Solution:
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
         cur = head
+        prev = None
         
-        # Move pointers to correct start
         while left > 1:
             prev = cur
             cur = cur.next
             left -= 1
             right -= 1
             
-        start = prev
+        # Establish connect node pointer and tail pointer
+        con = prev
         tail = cur
         
-        # Reverses sublist
+        # Reverse right # of time
         while right:
             next_node = cur.next
             cur.next = prev
@@ -110,12 +87,11 @@ class Solution(object):
             cur = next_node
             right -= 1
             
-        # Relink
-        if start:
-            start.next = prev
+        if con:
+            con.next = prev
         else:
             head = prev
             
         tail.next = cur
         
-        return head
+        return head 
